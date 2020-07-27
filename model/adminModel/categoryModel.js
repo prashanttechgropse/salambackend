@@ -8,7 +8,7 @@ var CategorySchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    businessId: [{ type: ObjectId, ref: "businesss", default: null }],
+    businessId: { type: ObjectId, ref: "businesss", default: null },
     // subCategoryId : [{type : ObjectId, ref : 'subCategory',default: null}],
   },
   { usePushEach: true }
