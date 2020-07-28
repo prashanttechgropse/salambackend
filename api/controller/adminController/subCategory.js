@@ -19,23 +19,25 @@ var subCategoryMethod = async (req, res) => {
         subcategoryId: Date.now(),
         subcategory: req.body.subcategory,
       });
+      subcategory.save((error, saved) => {
+        if (error) {
+          return res.json({ status: false, message: "SubCategory Not Added" });
+        } else {
+          return res.json({
+            status: true,
+            message: "SubCategory Added",
+            saved,
+          });
+        }
+      });
     } else {
       return res.json({
         status: false,
         message: "SubCategory Already present",
       });
     }
-    await subcategory.save();
   } catch (error) {
     return res.json({ status: false, message: "Something Went Wrong" });
-  } finally {
-    log.save((error, saved) => {
-      if (error) {
-        return res.json({ status: false, message: "SubCategory Not Added" });
-      } else {
-        return res.json({ status: true, message: "SubCategory Added", saved });
-      }
-    });
   }
 };
 

@@ -1,7 +1,7 @@
 var business = require("../../../model/adminModel/businessCategoryModel");
 var category = require("../../../model/adminModel/categoryModel");
 var subCategory = require("../../../model/adminModel/subCategoryModel");
-
+var specifications = require("../../../model/adminModel/specificationModel");
 var mongoose = require("mongoose");
 
 var businessCategory = async (req, res) => {
@@ -78,7 +78,16 @@ var deleteBusinessCategory = (req, res) => {
       async (user) => {
         if (user) {
           await category.deleteMany({ businessId: user._id });
+          const subcategories = await subCategory.find({
+            businessId: user._id,
+          });
           await subCategory.deleteMany({ businessId: user._id });
+          console.log(subcategories);
+          subcategories.map(
+            async (c) =>
+              await specifications.deleteMany({ subCategoryId: c._id })
+          );
+
           return res.json({
             status: true,
             message: "Business Category Deleted",
